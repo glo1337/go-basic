@@ -1,27 +1,71 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 const USD_TO_RUB float64 = 83.74
 const USD_TO_EUR float64 = 1.137
 
 func main() {
-	// eur := 2.0
-	// res := EurToRub(eur)
-	// fmt.Println(res)
+	for {
+		currencies := "USD EUR RUB"
+		currentCurrency := scanCurrency("Введите текущую валюту: " + currencies)
+		if !strings.Contains(currencies, currentCurrency) || currentCurrency == "" {
+			continue
+		}
+
+		value := scanValue("Введите количество")
+		if value <= 0 {
+			continue
+		}
+
+		availableCurrency := strings.ReplaceAll(currencies, currentCurrency, "")
+		targetCurrency := scanCurrency("Введите желаемую валюту: " + availableCurrency)
+		if !strings.Contains(availableCurrency, targetCurrency) || targetCurrency == "" {
+			continue
+		}
+
+		result := convert(value, currentCurrency, targetCurrency)
+		fmt.Printf("%.2f %s = %.2f %s\n\n", value, currentCurrency, result, targetCurrency)
+		return
+	}
 }
 
-func EurToRub(value float64) float64 {
-	usd := value * USD_TO_EUR
-	return usd * USD_TO_RUB
+func scanCurrency(message string) (value string) {
+	fmt.Println(message)
+	fmt.Scanln(&value)
+	return value
 }
 
-func scanInput(message string) (value string) {
+func scanValue(message string) (value float64) {
 	fmt.Println(message)
 	fmt.Scanln(&value)
 	return value
 }
 
 func convert(value float64, from string, to string) float64 {
-	return 0
+	var usdValue float64
+	switch from {
+	case "USD":
+		usdValue = value
+	case "RUB":
+		usdValue = value / USD_TO_RUB
+	case "EUR":
+		usdValue = value / USD_TO_EUR
+	default:
+		return 0
+	}
+
+	switch to {
+	case "USD":
+		return usdValue
+	case "RUB":
+		return usdValue * USD_TO_RUB
+	case "EUR":
+		return usdValue * USD_TO_EUR
+	default:
+		return 0
+	}
 }
