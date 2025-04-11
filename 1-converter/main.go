@@ -11,20 +11,32 @@ const USD_TO_EUR float64 = 1.137
 func main() {
 	for {
 		currencies := "USD EUR RUB"
-		currentCurrency := scanCurrency("Введите текущую валюту: " + currencies)
-		if !strings.Contains(currencies, currentCurrency) || currentCurrency == "" {
-			continue
+		currentCurrency := ""
+		for {
+			currentCurrency = scanCurrency("Введите текущую валюту: " + currencies)
+			if !strings.Contains(currencies, currentCurrency) || currentCurrency == "" {
+				continue
+			}
+			break
 		}
 
-		value := scanValue("Введите количество")
-		if value <= 0 {
-			continue
+		value := 0.0
+		for {
+			value = scanValue("Введите количество")
+			if value <= 0 {
+				continue
+			}
+			break
 		}
 
-		availableCurrency := strings.ReplaceAll(currencies, currentCurrency, "")
-		targetCurrency := scanCurrency("Введите желаемую валюту: " + availableCurrency)
-		if !strings.Contains(availableCurrency, targetCurrency) || targetCurrency == "" {
-			continue
+		targetCurrency := ""
+		for {
+			availableCurrency := strings.ReplaceAll(currencies, currentCurrency, "")
+			targetCurrency = scanCurrency("Введите желаемую валюту: " + availableCurrency)
+			if !strings.Contains(availableCurrency, targetCurrency) || targetCurrency == "" {
+				continue
+			}
+			break
 		}
 
 		result := convert(value, currentCurrency, targetCurrency)
