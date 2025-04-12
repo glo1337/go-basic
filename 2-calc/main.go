@@ -12,79 +12,77 @@ func main() {
 	for {
 		operation := scanInput("Введите операцию (AVG - среднее, SUM - сумма, MED - медиана): ")
 		if !slices.Contains(operations, operation) {
+			fmt.Println("Неверная операция, попробуйте снова")
 			continue
 		}
 
-		values := scanInput("Введите числа через запятую: ")
-		valuesSplitted := strings.Split(values, ",")
-		if len(values) == 0 {
+		numbers := scanNumbers("Введите числа через запятую: ")
+		if len(numbers) == 0 {
+			fmt.Println("Ни одно число не было введено")
 			continue
 		}
-		res := calc(operation, valuesSplitted)
-		resString := fmt.Sprintf("Результат: %v", res)
-		fmt.Println(resString)
+
+		result := calc(operation, numbers)
+		fmt.Printf("Результат: %v\n\n", result)
 	}
 }
 
-func scanInput(message string) (value string) {
+func scanInput(message string) string {
 	fmt.Println(message)
-	fmt.Scanln(&value)
-	return value
+	var input string
+	fmt.Scanln(&input)
+	return input
 }
 
-func calc(operation string, values []string) int {
-	res := 0
+func scanNumbers(message string) []int {
+	fmt.Println(message)
+	var input string
+	fmt.Scanln(&input)
+
+	parts := strings.Split(input, ",")
+	var numbers []int
+	for _, p := range parts {
+		num, err := strconv.Atoi(strings.TrimSpace(p))
+		if err != nil {
+			fmt.Printf("Некорректное значение: %q\n", p)
+			continue
+		}
+		numbers = append(numbers, num)
+	}
+	return numbers
+}
+
+func calc(operation string, numbers []int) int {
 	switch operation {
 	case "AVG":
-		res = calcAvg(values)
+		return calcAvg(numbers)
 	case "SUM":
-		res = calcSum(values)
+		return calcSum(numbers)
 	case "MED":
-		res = calcMed(values)
-	}
-	return res
-}
-
-func calcAvg(values []string) int {
-	res := 0
-	for _, v := range values {
-		number, err := strconv.Atoi(strings.TrimSpace(v))
-		if err != nil {
-			continue
-		}
-		res += number
-	}
-	return res / len(values)
-}
-
-func calcSum(values []string) int {
-	res := 0
-	for _, v := range values {
-		number, err := strconv.Atoi(strings.TrimSpace(v))
-		if err != nil {
-			continue
-		}
-		res += number
-	}
-	return res
-}
-
-func calcMed(values []string) int {
-	var numbers []int
-	for _, v := range values {
-		number, err := strconv.Atoi(strings.TrimSpace(v))
-		if err != nil {
-			continue
-		}
-		numbers = append(numbers, number)
-	}
-
-	if len(numbers) == 0 {
+		return calcMed(numbers)
+	default:
 		return 0
 	}
+}
 
+func calcAvg(numbers []int) int {
+	sum := 0
+	for _, n := range numbers {
+		sum += n
+	}
+	return sum / len(numbers)
+}
+
+func calcSum(numbers []int) int {
+	sum := 0
+	for _, n := range numbers {
+		sum += n
+	}
+	return sum
+}
+
+func calcMed(numbers []int) int {
 	slices.Sort(numbers)
-
 	mid := len(numbers) / 2
 	if len(numbers)%2 == 0 {
 		return (numbers[mid-1] + numbers[mid]) / 2
