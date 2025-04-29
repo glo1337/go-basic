@@ -8,23 +8,29 @@ import (
 )
 
 func main() {
-	binList, err := storage.ReadBins()
-	if err != nil {
-		fmt.Println("при чтении bins произошла ошибка:", err)
-		return
+	fileStorage := storage.NewFileStorage("./bin.json")
+
+	binList, err := fileStorage.Read()
+	if err == nil {
+		fmt.Println(binList)
+	} else {
+		fmt.Println("ошибка при чтении:", err)
 	}
 
 	bin1 := bins.NewBin()
 	bin2 := bins.NewBin()
 	bin3 := bins.NewBin()
 
-	binList.List = append(binList.List, *bin1)
-	binList.List = append(binList.List, *bin2)
-	binList.List = append(binList.List, *bin3)
+	binList.List = append(binList.List, *bin1, *bin2, *bin3)
 
 	content, err := json.Marshal(binList)
 	if err != nil {
-		fmt.Println("ошибка при формировании json bin")
+		fmt.Println("ошибка при формировании json bin:", err)
+		return
 	}
-	storage.SaveBins(content, "bin")
+
+	err = fileStorage.Write(content)
+	if err != nil {
+		fmt.Println("ошибка при записи файла:", err)
+	}
 }

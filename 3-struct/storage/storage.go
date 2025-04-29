@@ -5,36 +5,53 @@ import (
 	"binstruct/file"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 )
 
-func SaveBins(content []byte, fileName string) {
+type BinsStorage interface {
+	Read() (*bins.BinList, error)
+	Write(content []byte) error
+}
+
+type FileStorage struct {
+	FilePath string
+}
+
+func NewFileStorage(filePath string) *FileStorage {
+	return &FileStorage{
+		FilePath: filePath,
+	}
+}
+
+func (storage *FileStorage) Write(content []byte) error {
+	fileName := storage.FilePath
 	if filepath.Ext(fileName) == "" {
 		fileName = fileName + ".json"
 	}
 
 	file, err := os.Create(fileName)
 	if err != nil {
-		fmt.Println("ошибка при создании файла:", err)
-		return
+		return errors.New("ошибка при создании файла")
 	}
 	defer file.Close()
 
 	_, err = file.Write(content)
 	if err != nil {
-		fmt.Println("ошибка при записи файла:", err)
-		return
+		return errors.New("ошибка при записи файла")
 	}
-	fmt.Println("запись успешна:", fileName)
+	return nil
 }
 
-func ReadBins() (*bins.BinList, error) {
+func (storage *FileStorage) Read() (*bins.BinList, error) {
 	binList := bins.NewBinList()
-	content, err := file.ReadFromFile("./bin.json")
+	content, err := file.ReadFromFile(storage.FilePath)
 	if err != nil {
 		return nil, errors.New("произошла ошибка во время чтения")
+	}
+
+	if len(content) == 0 {
+		return binList, nil
 	}
 
 	err = json.Unmarshal(content, binList)

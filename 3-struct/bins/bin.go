@@ -18,11 +18,12 @@ type BinList struct {
 }
 
 func NewBin() *Bin {
+	uuid := uuid.New().String()
 	return &Bin{
-		Id:        uuid.New().String(),
+		Id:        uuid,
 		Private:   true,
 		CreatedAt: time.Now(),
-		Name:      "firstBin",
+		Name:      "bin-" + uuid,
 	}
 }
 
