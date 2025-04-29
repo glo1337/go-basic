@@ -19,9 +19,8 @@ func ReadFromFile(fileName string) ([]byte, error) {
 		return nil, errors.New("ожидался файл, но это папка")
 	}
 
-	fileExt := path.Ext(fileName)
-	if fileExt != ".json" {
-		return nil, errors.New("неверный формат файла")
+	if !IsJson(fileName) {
+		return nil, errors.New("ожидается json")
 	}
 
 	content, err := os.ReadFile(fileName)
@@ -29,4 +28,9 @@ func ReadFromFile(fileName string) ([]byte, error) {
 		return nil, errors.New("ошибка чтения файла")
 	}
 	return content, nil
+}
+
+func IsJson(fileName string) bool {
+	fileExt := path.Ext(fileName)
+	return fileExt == ".json"
 }

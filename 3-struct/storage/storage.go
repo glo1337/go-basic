@@ -1,13 +1,13 @@
 package storage
 
 import (
+	"binstruct/bins"
+	"binstruct/file"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
-	"struct/bins"
-	"struct/file"
 )
 
 func SaveBins(content []byte, fileName string) {

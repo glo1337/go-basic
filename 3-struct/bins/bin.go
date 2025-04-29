@@ -1,6 +1,10 @@
 package bins
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Bin struct {
 	Id        string    `json:"id"`
@@ -15,7 +19,7 @@ type BinList struct {
 
 func NewBin() *Bin {
 	return &Bin{
-		Id:        "first",
+		Id:        uuid.New().String(),
 		Private:   true,
 		CreatedAt: time.Now(),
 		Name:      "firstBin",

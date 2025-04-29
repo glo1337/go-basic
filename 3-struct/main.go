@@ -1,10 +1,10 @@
 package main
 
 import (
+	"binstruct/bins"
+	"binstruct/storage"
 	"encoding/json"
 	"fmt"
-	"struct/bins"
-	"struct/storage"
 )
 
 func main() {
