@@ -1,0 +1,58 @@
+{
+    "list": [
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-28T19:50:54.8595792+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-28T19:50:54.8595792+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-28T19:50:54.8595792+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-29T09:01:12.5946271+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-29T09:01:12.5946271+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-29T09:01:12.5946271+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-29T09:01:22.3449513+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-29T09:01:22.3449513+05:00",
+            "name": "firstBin"
+        },
+        {
+            "id": "first",
+            "private": true,
+            "createdAt": "2025-04-29T09:01:22.3449513+05:00",
+            "name": "firstBin"
+        }
+    ]
+}
