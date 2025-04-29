@@ -1,12 +1,16 @@
 package storage
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
+	"struct/bins"
+	"struct/file"
 )
 
-func SaveAsJson(content []byte, fileName string) {
+func SaveBins(content []byte, fileName string) {
 	if filepath.Ext(fileName) == "" {
 		fileName = fileName + ".json"
 	}
@@ -24,4 +28,19 @@ func SaveAsJson(content []byte, fileName string) {
 		return
 	}
 	fmt.Println("запись успешна:", fileName)
+}
+
+func ReadBins() (*bins.BinList, error) {
+	binList := bins.NewBinList()
+	content, err := file.ReadFromFile("./bin.json")
+	if err != nil {
+		return nil, errors.New("произошла ошибка во время чтения")
+	}
+
+	err = json.Unmarshal(content, binList)
+	if err != nil {
+		return nil, err
+	}
+
+	return binList, nil
 }

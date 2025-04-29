@@ -4,19 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"struct/bins"
-	"struct/file"
 	"struct/storage"
 )
 
 func main() {
-	binList := bins.NewBinList()
-	content, err := file.ReadFromFile("./bin.json")
+	binList, err := storage.ReadBins()
 	if err != nil {
-		fmt.Println("произошла ошибка во время чтения:", err)
+		fmt.Println("при чтении bins произошла ошибка:", err)
 		return
 	}
-
-	fmt.Println(json.Unmarshal(content, binList))
 
 	bin1 := bins.NewBin()
 	bin2 := bins.NewBin()
@@ -26,9 +22,9 @@ func main() {
 	binList.List = append(binList.List, *bin2)
 	binList.List = append(binList.List, *bin3)
 
-	content, err = json.Marshal(binList)
+	content, err := json.Marshal(binList)
 	if err != nil {
 		fmt.Println("ошибка при формировании json bin")
 	}
-	storage.SaveAsJson(content, "bin")
+	storage.SaveBins(content, "bin")
 }
