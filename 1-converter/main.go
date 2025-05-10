@@ -5,10 +5,15 @@ import (
 	"strings"
 )
 
-const USD_TO_RUB float64 = 83.74
-const USD_TO_EUR float64 = 1.137
+type currencyMap = map[string]float64
 
 func main() {
+	var currencyMap = currencyMap{
+		"USD": 82.17,
+		"EUR": 93.45,
+		"RUB": 1.0,
+	}
+
 	for {
 		currencies := "USD EUR RUB"
 		currentCurrency := ""
@@ -39,7 +44,7 @@ func main() {
 			break
 		}
 
-		result := convert(value, currentCurrency, targetCurrency)
+		result := convert(value, currentCurrency, targetCurrency, currencyMap)
 		fmt.Printf("%.2f %s = %.2f %s\n\n", value, currentCurrency, result, targetCurrency)
 		return
 	}
@@ -57,27 +62,7 @@ func scanValue(message string) (value float64) {
 	return value
 }
 
-func convert(value float64, from string, to string) float64 {
-	var usdValue float64
-	switch from {
-	case "USD":
-		usdValue = value
-	case "RUB":
-		usdValue = value / USD_TO_RUB
-	case "EUR":
-		usdValue = value / USD_TO_EUR
-	default:
-		return 0
-	}
-
-	switch to {
-	case "USD":
-		return usdValue
-	case "RUB":
-		return usdValue * USD_TO_RUB
-	case "EUR":
-		return usdValue * USD_TO_EUR
-	default:
-		return 0
-	}
+func convert(value float64, from string, to string, currencies currencyMap) float64 {
+	rubles := value * currencies[from]
+	return rubles / currencies[to]
 }
